@@ -1,0 +1,21 @@
+{
+  "name": "bookstore-bliss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nihal1155/Bookstore-bliss.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nihal1155/Bookstore-bliss/issues"
+  },
+  "homepage": "https://github.com/nihal1155/Bookstore-bliss#readme"
+}
