@@ -4,8 +4,18 @@ const productSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    trim: true, // Removes whitespace from both ends of a string
-    maxlength: 200 // Limits the length of the title
+    trim: true,
+    maxlength: 200,
+    validate: {
+      validator: function(v) {
+        return v.length >= 3; // Only allows alphanumeric characters and spaces
+      },
+      message: props => `${props.value} is not a valid title!`
+    }
+  },
+  slug: { 
+    type: String,
+    unique: true
   },
   author: {
     type: String,
@@ -21,7 +31,7 @@ const productSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
-    min: 0 // Ensures the price cannot be negative
+    min: 0
   },
   imageUrl: {
     type: String,
@@ -32,16 +42,34 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    enum: ['Fiction', 'Mystery', 'Thriller', 'Science Fiction', 'Fantasy', 'Other'] // Limits the category to specific values
+    enum: ['Fiction', 'Mystery', 'Thriller', 'Science Fiction', 'Romance', 'Fantasy', 'Other']
   },
   stockQuantity: {
     type: Number,
     required: true,
     min: 0,
-    default: 0 // Sets a default value if not provided
-  }
+    default: 0
+  },
+  discountPercentage: {
+    type: Number,
+    min: 0,
+    max: 100,
+    default: 0
+  },
+  tags: {
+    type: [String],
+    default: []
+  },
 }, {
-  timestamps: true // Adds createdAt and updatedAt fields
+  timestamps: true,
+  strict: true // Only allows fields defined in the schema
+});
+
+productSchema.pre('save', function (next) {
+  if (this.isModified('title')) {
+    this.slug = slugify(this.title, { lower: true, strict: true });
+  }
+  next();
 });
 
 module.exports = productSchema;
