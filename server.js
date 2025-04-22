@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.json());
+app.use(require('cors')())
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');

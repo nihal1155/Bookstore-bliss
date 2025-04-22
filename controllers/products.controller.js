@@ -54,9 +54,12 @@ exports.fetchProductsByPrice = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
   try {
-    const productId = req.params.id;
+    const productId = req.params.slug;
+    console.log('Product ID:', productId);
+    console.log(mongoose.Types.ObjectId.isValid(req.params.slug));
     const updates  = req.body;
     const updatedProduct = await Product.findByIdAndUpdate(productId, updates, { new: true });
+    console.log('Updated Product:', updatedProduct);
     if (!updatedProduct) {
       return res.status(404).json({ message: 'Product not found' });
     }
