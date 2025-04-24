@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,14 @@
   "bugs": {
     "url": "https://github.com/nihal1155/Bookstore-bliss/issues"
   },
-  "homepage": "https://github.com/nihal1155/Bookstore-bliss#readme"
+  "homepage": "https://github.com/nihal1155/Bookstore-bliss#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.13.2",
+    "nodemon": "^3.1.9",
+    "slugify": "^1.6.6"
+  }
 }
