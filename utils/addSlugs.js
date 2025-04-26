@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const productSchema = require('./model/product.model');
+const productSchema = require('../model/product.model');
 const Product = mongoose.model('Product', productSchema);
 require('dotenv').config();
 // MongoDB connection

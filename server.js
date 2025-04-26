@@ -3,6 +3,7 @@ const path = require('path');
 const connectDB = require('./config/db');
 require('dotenv').config();
 const productRoutes = require('./routes/products.routes');
+const userRoutes = require('./routes/user.routes');
 const app = express();
 connectDB();
 const PORT = process.env.PORT || 3000;
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/api/users',userRoutes);
 app.use(productRoutes);
 
 app.get('/', (req, res) => {
