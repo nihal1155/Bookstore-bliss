@@ -15,7 +15,18 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async(req, res) => {
     try {
-      const products = await Product.find(); // Fetch all documents
+      const {search} = req.query;
+      let products;
+      if(search) {
+        products = await Product.find({
+          $or: [
+            { title: { $regex: search, $options: 'i' } },
+            { description: { $regex: search, $options: 'i' } }
+          ]
+        });
+      } else {
+        products = await Product.find(); // Fetch all documents
+      }
       res.status(200).json(products);
     } catch (err) {
       console.error('Error fetching products:', err);
@@ -25,6 +36,7 @@ exports.getAllProducts = async(req, res) => {
 
 exports.getProductBySlug = async (req, res) => {
   try {
+    console.log(req.params);
     const product = await Product.findOne({ slug: req.params.slug });
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
@@ -82,6 +94,25 @@ exports.deleteProduct = async (req, res) => {
   }
   catch (error) {
     console.error('Error deleting product:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+exports.searchKeyword = async (req, res) => {
+  try {
+    const keyword = req.query.search;
+    if (!keyword) {
+      return res.status(400).json({ message: 'Keyword query parameter is required' });
+    }
+    const products = await Product.find({
+      $or: [
+        { title: { $regex: keyword, $options: 'i' } },
+        { description: { $regex: keyword, $options: 'i' } }
+      ]
+    });
+    res.status(200).json(products);
+  } catch (error) {
+    console.error('Error searching products:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 }
